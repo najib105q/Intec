@@ -47,6 +47,7 @@ build/
 vendor/
 composer.lock
 composer.phar
+**/db.php
 
 # -------------------------
 # Web / Frontend
