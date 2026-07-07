@@ -48,6 +48,8 @@ vendor/
 composer.lock
 composer.phar
 **/db.php
+**/db.php
+**/*db*.php
 
 # -------------------------
 # Web / Frontend
