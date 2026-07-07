@@ -1,0 +1,79 @@
+# -------------------------
+# OS / Editor / Misc
+# -------------------------
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*~
+*.bak
+
+# VS Code
+.vscode/
+
+# JetBrains / IntelliJ / PhpStorm
+.idea/
+
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env
+.env.*
+venv/
+.venv/
+
+# Virtualenv
+ENV/
+env/
+
+# -------------------------
+# Node / JavaScript
+# -------------------------
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+dist/
+build/
+
+# -------------------------
+# PHP
+# -------------------------
+vendor/
+composer.lock
+composer.phar
+
+# -------------------------
+# Web / Frontend
+# -------------------------
+.cache/
+.sass-cache/
+.parcel-cache/
+.next/
+.nuxt/
+out/
+coverage/
+
+# -------------------------
+# Images / Media (optional)
+# Uncomment if you want to ignore large raw assets
+# *.psd
+# *.ai
+# *.tiff
+
+# -------------------------
+# SQL dumps (optional)
+# *.sql
+# *.sqlite
+# *.db
+
+# -------------------------
+# Misc
+# -------------------------
+*.swp
+*.swo
