@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "private/db.php";
+require_once __DIR__ . "../../private/db.php";
 $db = db();
 
 $stmt = $db->prepare("SELECT * FROM questions ORDER BY id");
