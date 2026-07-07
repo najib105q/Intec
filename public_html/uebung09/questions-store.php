@@ -1,5 +1,5 @@
 <?php
-require_once "db.php";
+require_once __DIR__ . "private/db.php";
 $db = db();
 
 $required = ["question", "answer0", "answer1", "answer2", "solution"];

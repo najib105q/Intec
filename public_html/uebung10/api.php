@@ -1,5 +1,5 @@
 <?php
-require_once "db.php";
+require_once __DIR__ . "private/db.php";
 $db = db();
 
 $n = isset($_GET["n"]) ? intval($_GET["n"]) : 10;
