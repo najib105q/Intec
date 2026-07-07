@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Smiley mit Canvas</title>
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            padding-top: 20px;
+        }
+
+        #Smiley {
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid lightgray;
+        }
+        .slider-contaier {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="canvasContainer">
+        <canvas id="Smiley" width="400" height="400"></canvas>
+
+        <div class="slider-container">
+            <label for="meinSlider">Regler:</label>
+            <input type="range" id="meinSlider" min="-75" max="75" value="0">
+            <span id="sliderWert">0</span>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById("Smiley");
+        const ctx = canvas.getContext("2d");
+
+        const slider = document.getElementById("meinSlider");
+        const sliderWert = document.getElementById("sliderWert");
+        
+        const startWinkel = 0;
+        const endWinkel = Math.PI * 2;
+
+
+        function zeichneSmiley(h) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const kopfMittelpunktX = 200;
+            const kopfMittelpunktY = 200;
+            const radius = 190;
+
+            const augeRadius = 25 + 0.1 * h;
+
+            ctx.beginPath();
+            ctx.arc(kopfMittelpunktX, kopfMittelpunktY, radius, startWinkel, endWinkel);
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            const augeLinksMittelpunktX = 100;
+            const augeLinksMittelpunktY = 130;
+            
+
+            ctx.beginPath();
+            ctx.arc(augeLinksMittelpunktX, augeLinksMittelpunktY, augeRadius, startWinkel, endWinkel)
+            ctx.fillStyle = "black";
+            ctx.fill();
+
+            const augeRechtsMittelpunktX = 270;
+            const augeRechtsMittelpunktY = 130;
+
+            ctx.beginPath();
+            ctx.arc(augeRechtsMittelpunktX, augeRechtsMittelpunktY, augeRadius, startWinkel, endWinkel)
+            ctx.fillStyle = "black";
+            ctx.fill();
+
+            const mouthStartX = 75;
+            const mouthStartY = 270;
+
+            const mouthEndX = 325;
+            const mouthEndY = 270;
+
+            const controlPointX = 200
+            const controlPointY = 270 + h;
+
+            ctx.beginPath();
+            ctx.moveTo(mouthStartX, mouthStartY); 
+            ctx.quadraticCurveTo(controlPointX, controlPointY, mouthEndX, mouthEndY);
+            ctx.strokeStyle = "black"; 
+            ctx.lineWidth = 1; 
+            ctx.stroke();
+        }
+
+        slider.addEventListener("input", function(h) {
+            const hWert = parseInt(this.value);
+            zeichneSmiley(hWert);
+            sliderWert.textContent = hWert;
+        })
+
+        const initialHWert = parseInt(slider.value);
+        zeichneSmiley(initialHWert);
+        sliderWert.textContent = initialHWert; 
+
+        
+
+
+
+
+        
+
+    </script>
+</body>
+</html>

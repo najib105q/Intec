@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Snake Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #d3d3d3;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="board" width="400" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById("board");
+    const ctx = canvas.getContext("2d");
+
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const gridsize = 20;
+    const numCols = canvasWidth / gridsize;
+    const numRows = canvasHeight / gridsize;
+
+    var snake = [{x: 3, y: 2}, {x: 4, y: 2}, {x: 5, y: 2}];
+    var fruit = {x: 5, y: 5};
+    var currentDirection = {dx: -1, dy: 0};
+
+    const DIRECTION_LEFT  = {dx: -1, dy: 0};
+    const DIRECTION_RIGHT = {dx: 1, dy: 0};
+    const DIRECTION_UP    = {dx: 0, dy: -1};
+    const DIRECTION_DOWN  = {dx: 0, dy: 1};
+
+    function drawFruit(fruit) {
+        const x = fruit.x * gridsize;
+        const y = fruit.y * gridsize;
+        ctx.fillStyle = "#538700";
+        ctx.fillRect(x, y, gridsize, gridsize);
+        ctx.strokeStyle = "#d3d3d3";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 1, y + 1, gridsize - 2, gridsize - 2);
+    }
+
+    function drawSnake(snake) {
+        snake.forEach((segment, index) => {
+            const x = segment.x * gridsize;
+            const y = segment.y * gridsize;
+            ctx.fillStyle = index === 0 ? "#000000" : "#00538E";
+            ctx.fillRect(x, y, gridsize, gridsize);
+            ctx.strokeStyle = "#D3D3D3";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x + 1, y + 1, gridsize - 2, gridsize - 2);
+        });
+    }
+
+    function drawGameOver(points) {
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.font = "50px Arial";
+        ctx.fillText("Game over!", canvasWidth / 2, canvasHeight / 2 - 20);
+        ctx.font = "25px Arial";
+        ctx.fillText(points + " Punkte", canvasWidth / 2, canvasHeight / 2 + 20);
+    }
+
+    function fruitCollidesWithSnake(snake, fruit) {
+        return snake.some(seg => seg.x === fruit.x && seg.y === fruit.y);
+    }
+
+    function randomCoordinatesOutsideSnake(snake) {
+        while (true) {
+            const x = Math.floor(Math.random() * 20);
+            const y = Math.floor(Math.random() * 20);
+            if (!snake.some(seg => seg.x === x && seg.y === y)) {
+                return { x, y };
+            }
+        }
+    }
+
+    function snakeHeadCollidesWithSnake(snake) {
+        const head = snake[0];
+        return snake.slice(1).some(seg => seg.x === head.x && seg.y === head.y);
+    }
+
+    function mod(n, m) {
+        return ((n % m) + m) % m;
+    }
+
+    function moveSnake(snake, direction) {
+        const head = snake[0];
+        const newHead = {
+            x: mod(head.x + direction.dx, numCols),
+            y: mod(head.y + direction.dy, numRows)
+        };
+        const tail = snake.pop();
+        snake.unshift(newHead);
+        return tail;
+    }
+
+    document.body.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft"  && currentDirection.dx !== 1)  currentDirection = DIRECTION_LEFT;
+        if (event.key === "ArrowRight" && currentDirection.dx !== -1) currentDirection = DIRECTION_RIGHT;
+        if (event.key === "ArrowUp"    && currentDirection.dy !== 1)  currentDirection = DIRECTION_UP;
+        if (event.key === "ArrowDown"  && currentDirection.dy !== -1) currentDirection = DIRECTION_DOWN;
+    });
+
+    var intervalID = setInterval(function () {
+        const tail = moveSnake(snake, currentDirection);
+
+        if (fruitCollidesWithSnake(snake, fruit)) {
+            snake.push(tail);
+            fruit = randomCoordinatesOutsideSnake(snake);
+        }
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        drawSnake(snake);
+        drawFruit(fruit);
+
+        if (snakeHeadCollidesWithSnake(snake)) {
+            clearInterval(intervalID);
+            const points = snake.length - 3;
+            drawGameOver(points);
+        }
+    }, 150);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mein Bootsrap</title>
+        <style>
+            .container {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            @media (min-width: 576px) {
+                .container {
+                    grid-template-columns: 2fr 1fr;
+                }
+            }
+            .left-column { 
+                background-color: lightgrey;
+                padding: 20px
+            }
+            .right-column {
+                background-color: lightgrey;
+                padding: 20px;
+            }
+            .right-column .card {
+                background-color: #333333;
+                color: white;
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden; 
+                background-color: #333333;
+            }
+            nav li {
+                float: left;
+            }
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px;
+                text-decoration: none;
+            }
+            li a:hover {
+                background-color: #111111;
+            }
+            li ul {
+                display: none;
+                position: absolute;
+            }
+            li:hover ul {
+                display: block;
+            }
+            li ul li {
+                float: none;
+            } 
+            .list-group {
+                margin-top: 20px;
+                padding: 0;
+            }
+            .list-group li {
+                color: black;
+                background-color: white;
+                padding: 10px 15px;
+                border: 1px solid #ccc;
+                border-bottom: none;
+                list-style-type: none;
+            }
+            .list-group li:last-child {
+                border-bottom: 1px solid #ccc;
+            }
+            nav > ul > li:nth-child(3) > a::after {
+                content: " ⮟";
+                font-size: 14px;
+                color: white;
+                margin-left: 5px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a>Menüpunkt 1</a></li>
+                <li><a>Menüpunkt 2</a></li>
+                <li><a>Menüpunkt 3</a>
+                <ul>
+                    <li><a>Menüpunkt 4</a></li>
+                    <li><a>Menüpunkt 5</a></li>
+                    <li><a>Menüpunkt 6</a></li>
+                </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <div class="left-column">
+                <div class="card">
+                    <img src="Aufgabe1_Bilder/1.png" alt="Bild 1">
+                    <h3>Nature gate: Das beste Gate</h3>
+                    <p>Eine Szenerie wie aus einem Film</p>
+                </div>
+                <div class="card">
+                    <img src="Aufgabe1_Bilder/2.png" alt="Bild 2">
+                    <h3>Gemischte Jahreszeiten</h3>
+                    <p>Der letzte Laub, auf dem ersten Schnee</p>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="card">
+                    <h3>Das ist eine Kartenüberschrift</h3>
+                    <p>Das ist die Beschreibung der Karte</p>
+                </div>
+
+                <ul class="list-group">
+                    <li>Eintrag 1</li>
+                    <li>Eintrag Nummer 2</li>
+                    <li>Eintrag numero tres</li>
+                    <li>List-Group Eintrag vier</li>
+                    <li>Viele weitere List-Group Einträge</li>
+                </ul>
+            </div>
+        </div>
+
+        
+    </body>
+</html>

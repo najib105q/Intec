@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Quiz</title>
+<style>
+body { font-family: sans-serif; text-align: center; }
+button { padding: 0.6em 1em; margin: 0.5em; }
+.answer-btn { display: block; margin: 0.5em auto; width: 15em; }
+.correct { background-color: #6cc66c !important; }
+.wrong { background-color: #e26b6b !important; }
+</style>
+</head>
+<body>
+
+<h1>Quiz</h1>
+
+<div id="start">
+    <p>Wie viele Fragen möchtest du spielen?</p>
+    <input id="count" type="number" min="1" max="20" value="10">
+    <br>
+    <button id="startBtn">Spiel starten</button>
+</div>
+
+<div id="quiz" style="display:none;"></div>
+<div id="result" style="display:none;"></div>
+
+<script>
+const soundCorrect = new Audio("correct.mp3");
+const soundWrong = new Audio("wrong.mp3");
+
+let questions = [];
+let index = 0;
+let correct = 0;
+
+document.getElementById("startBtn").onclick = () => {
+    const n = document.getElementById("count").value;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "api.php?n=" + n);
+    xhr.onload = () => {
+        questions = JSON.parse(xhr.responseText);
+        index = 0;
+        correct = 0;
+        document.getElementById("start").style.display = "none";
+        document.getElementById("result").style.display = "none";
+        document.getElementById("quiz").style.display = "block";
+        showQuestion();
+    };
+    xhr.send();
+};
+
+function showQuestion() {
+    const q = questions[index];
+    const div = document.getElementById("quiz");
+    div.innerHTML = "<h2>" + q.question + "</h2>";
+
+    q.answers.forEach((ans, i) => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = ans;
+        btn.onclick = () => checkAnswer(btn, i);
+        div.appendChild(btn);
+    });
+}
+
+function checkAnswer(btn, chosen) {
+    const q = questions[index];
+    const buttons = document.querySelectorAll(".answer-btn");
+
+    buttons.forEach((b, i) => {
+        if (i === q.solution) b.classList.add("correct");
+        if (i === chosen && chosen !== q.solution) b.classList.add("wrong");
+    });
+
+    if (chosen === q.solution) {
+        correct++;
+        soundCorrect.play();
+    } else {
+        soundWrong.play();
+    }
+
+    buttons.forEach(b => b.onclick = null);
+
+    setTimeout(() => {
+        index++;
+        if (index < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }, 2000);
+}
+
+function showResult() {
+    document.getElementById("quiz").style.display = "none";
+    const div = document.getElementById("result");
+    div.style.display = "block";
+    div.innerHTML =
+        "<h2>Du hast " + correct + " von " + questions.length + " Fragen richtig beantwortet!</h2>" +
+        "<button onclick='restart()'>Neues Spiel starten!</button>";
+}
+
+function restart() {
+    document.getElementById("start").style.display = "block";
+    document.getElementById("result").style.display = "none";
+}
+</script>
+
+</body>
+</html>

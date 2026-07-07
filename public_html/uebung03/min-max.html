@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Min-Max-Finder</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .centered {
+            text-align: center;
+            margin-top: 20vh;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let zahlen = [];
+        for (let i = 0; i < 10; i++) {
+            let randomNumber = Math.random().toFixed(2);
+            zahlen.push(parseFloat(randomNumber))
+        }
+
+        let min = zahlen[0];
+        let max = zahlen[0];
+
+        for (let i = 1; i < zahlen.length; i++) {
+            if (zahlen[i] < min) {
+                min = zahlen[i];
+            }
+            if (zahlen[i] > max) {
+                max = zahlen[i];
+            }
+        }
+
+        document.write('<div class="centered">');
+        document.write("<h2>Min-Max-Finder:</h2>");
+        document.write(zahlen.join(", ") + "<br>");
+        document.write("<strong>Minimum:</strong> " + min + "<br>");
+        document.write("<strong>Maximum:</strong> " + max + "<br>");
+        document.write("</div>");
+
+    </script>
+</body>
+</html>

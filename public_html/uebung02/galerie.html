@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <title>Meine Bildergalarie</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: black;
+            }
+            .gallery img {
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+            }
+            @media (max-width: 1000px) {
+                .gallery {
+                    column-count: 2;
+                }
+            }
+            @media (max-width: 500px) {
+                .gallery {
+                    column-count: 1;
+                }
+            }
+            img:hover {
+                filter: grayscale(0%);
+            }
+            div {
+                column-count: 3;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Meine Bildergalarie</h1>
+        <div class="gallery">
+            <img src="Aufgabe1_Bilder/1.png" alt="Bild 1">
+            <img src="Aufgabe1_Bilder/2.png" alt="Bild 2">
+            <img src="Aufgabe1_Bilder/3.png" alt="Bild 3">
+            <img src="Aufgabe1_Bilder/4.png" alt="Bild 4">
+            <img src="Aufgabe1_Bilder/5.png" alt="Bild 5">
+            <img src="Aufgabe1_Bilder/6.png" alt="Bild 6">
+            <img src="Aufgabe1_Bilder/7.png" alt="Bild 7">
+            <img src="Aufgabe1_Bilder/8.png" alt="Bild 8">
+        </div>
+    </body>
+</html>

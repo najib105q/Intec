@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Stones</title>
+<style>
+body { font-family: sans-serif; }
+#feedback { margin-top: 10px; font-size: 20px; color: red; }
+</style>
+</head>
+<body>
+
+<canvas id="game" width="800" height="400" style="border:1px solid black;"></canvas>
+<div id="feedback"></div>
+
+<script>
+const c=document.getElementById("game");
+const x=c.getContext("2d");
+const p={x:100,y:100,s:10,dx:0,dy:0};
+const st=[];
+let t=performance.now();
+let g=false;
+
+function spawn(){
+    if(Math.random()<0.05){
+        let y=Math.floor(Math.random()*(c.height-10));
+        for(let s of st) if(Math.abs(s.y-y)<10) return;
+        st.push({x:0,y:y});
+    }
+}
+
+function updP(){
+    p.x+=p.dx;
+    p.y+=p.dy;
+    if(p.x<0)p.x=0;
+    if(p.x>c.width-p.s)p.x=c.width-p.s;
+    if(p.y<0)p.y=0;
+    if(p.y>c.height-p.s)p.y=c.height-p.s;
+}
+
+function updS(){
+    for(let s of st) s.x+=1;
+}
+
+function col(){
+    for(let s of st){
+        if(p.x<s.x+10&&p.x+p.s>s.x&&p.y<s.y+10&&p.y+p.s>s.y) return true;
+    }
+    return false;
+}
+
+function draw(){
+    x.clearRect(0,0,c.width,c.height);
+    x.fillStyle="red";
+    x.fillRect(p.x,p.y,p.s,p.s);
+    x.fillStyle="black";
+    for(let s of st) x.fillRect(s.x,s.y,10,10);
+}
+
+function loop(){
+    if(g) return;
+    spawn();
+    updP();
+    updS();
+    if(col()){
+        g=true;
+        let sec=((performance.now()-t)/1000).toFixed(1);
+        document.getElementById("feedback").textContent="Game over! Du hast "+sec+" Sekunden durchgehalten!";
+        return;
+    }
+    draw();
+    requestAnimationFrame(loop);
+}
+
+document.addEventListener("keydown",e=>{
+    if(e.key==="ArrowUp"){p.dx=0;p.dy=-2;}
+    if(e.key==="ArrowDown"){p.dx=0;p.dy=2;}
+    if(e.key==="ArrowLeft"){p.dx=-2;p.dy=0;}
+    if(e.key==="ArrowRight"){p.dx=2;p.dy=0;}
+});
+
+loop();
+</script>
+
+</body>
+</html>

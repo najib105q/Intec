@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fliegender Drache</title>
+        <style>
+            body {
+                text-align: center;
+                margin: 0;
+                padding-top: 20px;
+            }
+            #canvasContainer {
+                margin-top: 20px;
+            }
+            #dragonScene {
+                border: 1px solid black;
+            }
+
+        </style>
+    </head>
+    <body>
+        
+        <div id="canvasContainer">
+            <canvas id="dragonScene" width="700" height="350"></canvas>
+        </div>
+        <img src="dragon.png" style="display: none" id="dragonImg">
+        <img src="background.png" style="display: none;" id="backgroundImg">
+
+        <script>
+            const dragonCenterX = 275; 
+            const dragonCenterY = 150;
+            let currentDragonCenterY = dragonCenterY; 
+            const dragonScaleFactor = 0.2; 
+
+            let sinusWinkel = 0;
+            const sinusAmplitude = 60;
+            const sinusFrequenz = 0.01;
+
+
+            const canvas = document.getElementById("dragonScene");
+            const dragonImageElement = document.getElementById("dragonImg");
+            const backgroundImageElement = document.getElementById("backgroundImg");
+
+            let backgroundX1 = 0;
+            let backgroundX2 = canvas.width;
+            const scrollSpeed = 1; 
+
+            const ctx = canvas.getContext("2d");
+
+            function drawScene() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.drawImage(backgroundImageElement, backgroundX1, 0, canvas.width, canvas.height); 
+                ctx.drawImage(backgroundImageElement, backgroundX2, 0, canvas.width, canvas.height); 
+
+                const dragonWidth = dragonImageElement.width;
+                const dragonHeight = dragonImageElement.height;
+                const scaledWidth = dragonWidth * dragonScaleFactor;
+                const scaledHeight = dragonHeight * dragonScaleFactor;
+                const drawDragonX = dragonCenterX - scaledWidth / 2; 
+                const drawDragonY = dragonCenterY - scaledHeight / 2; 
+                ctx.drawImage(dragonImageElement, drawDragonX, currentDragonCenterY, scaledWidth, scaledHeight)
+            }
+
+            function updateBackground() {
+                backgroundX1 -= scrollSpeed;
+                backgroundX2 -= scrollSpeed; 
+
+                if (backgroundX1 <= -canvas.width) {
+                    backgroundX1 = backgroundX2 + canvas.width;
+                }
+                if (backgroundX2 <= -canvas.width) {
+                    backgroundX2 = backgroundX1 + canvas.width; 
+                }
+            }
+
+            function updateDragonPosition() {
+                sinusWinkel += sinusFrequenz;
+                const yOffset = Math.sin(sinusWinkel) * sinusAmplitude; 
+                currentDragonCenterY = dragonCenterY + yOffset; 
+            }
+
+            function animationLoop() {
+                updateBackground();
+                updateDragonPosition();
+                drawScene();
+                requestAnimationFrame(animationLoop);
+            }
+
+            const anzahlBilder = 2;
+            let bilderGeladen = 0;
+
+            function bildIstGeladen() {
+                bilderGeladen++;
+                if (bilderGeladen === anzahlBilder) {
+                    animationLoop();
+                }
+            }   
+            backgroundImageElement.onload = bildIstGeladen;
+            dragonImageElement.onload = bildIstGeladen;
+
+            
+
+        </script>
+    </body>
+
+</html>

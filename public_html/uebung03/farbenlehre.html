@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Farbenlehre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 5vh;
+        }
+
+        input, button {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        table {
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+        }
+
+        td.color-cell {
+            color: white;
+        }
+    </style>
+</head>    
+<body>
+    <script>
+        document.write('<div class="centered">');
+        document.write('<input type="number" id="Rotanteil" placeholder="Rotanteil">');
+        document.write('<input type="number" id="Grünanteil" placeholder="Grünanteil">');
+        document.write('<input type="number" id="Blauanteil" placeholder="Blauanteil">');
+        document.write('<button onclick="calculateColor()">Mal mich!</button>');
+        
+
+        document.write('<table id="colorTable">');
+        document.write('<tr><th>Rotanteil</th><th>Grünanteil</th><th>Blauanteil</th><th>RGB-Farbe</th></tr>');
+        document.write('</table>');
+        document.write('</div>');
+
+        function calculateColor() {
+            let r = parseInt(document.getElementById("Rotanteil").value) || 0;
+            let g = parseInt(document.getElementById("Grünanteil").value) || 0;
+            let b = parseInt(document.getElementById("Blauanteil").value) || 0;
+        
+            r = Math.min(255, Math.max(0,r)); 
+            g = Math.min(255, Math.max(0, g));
+            b = Math.min(255, Math.max(0, b));
+
+            const hex = '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+
+            let table = document.getElementById("colorTable");
+            let row = table.insertRow(-1);
+
+            row.insertCell(0).innerText = r;
+            row.insertCell(1).innerText = g;
+            row.insertCell(2).innerText = b;
+
+            let colorCell = row.insertCell(3);
+            colorCell.innerText = hex;
+            colorCell.style.backgroundColor = hex;
+            colorCell.classList.add("color-cell");
+        }
+
+    </script>
+</body>
+</html>
